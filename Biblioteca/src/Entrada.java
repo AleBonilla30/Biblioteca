@@ -1,11 +1,7 @@
 import controller.Biblioteca;
 import model.*;
-
 import utils.TipoHumor;
 import utils.Trama;
-
-
-import java.util.List;
 import java.util.Scanner;
 
 public class Entrada {

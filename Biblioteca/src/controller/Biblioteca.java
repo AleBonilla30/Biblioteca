@@ -37,8 +37,17 @@ public class Biblioteca <L extends Libro> implements Serializable {
     public void consultarEspacio(){
         catalogo.espacioDisponible();
     }
-    public int consultarNumeroLibros(){
-        return catalogo.ConsultarNumLibros();
+    public void consultarNumeroLibros(){
+        try{
+            if (catalogo == null){
+                throw new NullPointerException("El catalogo esta vacio 🚫");
+            }else {
+                catalogo.ConsultarNumLibros();
+            }
+        }catch (NullPointerException e){
+            JOptionPane.showMessageDialog(null,e.getMessage(),"Error", 0);
+        }
+
     }
     public void agregarLibrosCatalogo(L libro) {
         try{
@@ -59,27 +68,59 @@ public class Biblioteca <L extends Libro> implements Serializable {
 
     }
     public void ficheroExportar(){
-        catalogo.exportarFichero();
+        try {
+            if (catalogo == null){
+                throw new NullPointerException("No se puede exportar el fichero, el catalogo esta vacio ❌");
+            }else {
+                catalogo.exportarFichero();
+            }
+
+        }catch (NullPointerException e){
+            JOptionPane.showMessageDialog(null,e.getMessage(),"Error", 0);
+        }
+
     }
 
-    public void listarLibrosCatalogo(){
-        catalogo.listaLibros();
+    public void listarLibrosCatalogo() {
+        try {
+            if (catalogo == null) {
+                throw new NullPointerException("No se puede sacar la lista de libros ❌.");
+            }else {
+                catalogo.listaLibros();
+            }
+
+        }catch (NullPointerException e){
+            JOptionPane.showMessageDialog(null,e.getMessage(),"Error", 0);
         }
+    }
 
 
     public void sacarLibros(){
         try {
-            catalogo.sacarLibro();
-        }catch (CatalogoException e){
-           JOptionPane.showMessageDialog(null,e.getMessage());
+            if (catalogo == null){
+                throw new CatalogoNoexisteException("No hay libros en este catalogo 📂 por favor crea el catalogo");
+            }else {
+                catalogo.sacarLibro();
+            }
+
+        } catch (CatalogoNoexisteException | CatalogoException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(),"Error", 0);
+        } catch (NullPointerException e){
+            JOptionPane.showMessageDialog(null,"El catalogo esta vacio ❌", "Error",0);
         }
 
     }
     public void buscarLibro(){
         try {
-            catalogo.buscarInfoLibro();
-        }catch (CatalogoException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            if (catalogo == null){
+                throw new NullPointerException("El catalogo esta vacio ❌");
+            }else{
+                catalogo.buscarInfoLibro();
+            }
+
+        }catch (NullPointerException | CatalogoException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(),"Error",0);
+
         }
 
     }
@@ -110,7 +151,7 @@ public class Biblioteca <L extends Libro> implements Serializable {
 
     class Catalogo {
         private int maximoLibros;
-        private ArrayList<L> listaLibros;
+        private final ArrayList<L> listaLibros;
 
         public Catalogo(int maximoLibros) {
             this.maximoLibros = maximoLibros;
@@ -121,11 +162,10 @@ public class Biblioteca <L extends Libro> implements Serializable {
             this.maximoLibros = maximoLibros;
         }
 
-        public int ConsultarNumLibros() {
+        public void ConsultarNumLibros() {
             int resultado = listaLibros.size();
             System.out.println();
             System.out.println("El numero de libros en el catalogo es 📚: "+resultado);
-            return resultado;
         }
         public int espacioDisponible(){
             int resultado = maximoLibros - listaLibros.size();
@@ -162,6 +202,7 @@ public class Biblioteca <L extends Libro> implements Serializable {
                 JOptionPane.showMessageDialog(null,"Error al exportar el catalogo ❌ " +e.getMessage(),"Error",0);
             }finally {
                 try {
+                    assert fichero != null;
                     fichero.close();
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null,"Error en el cerrado ❌ " +e.getMessage(),"Error", 0);
