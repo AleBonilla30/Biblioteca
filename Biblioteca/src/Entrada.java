@@ -11,7 +11,7 @@ public class Entrada {
     Biblioteca<LibroTerror> biblioteca = new Biblioteca<>();
     Biblioteca<LibroComedia> biblioteca1 = new Biblioteca<>();
     Biblioteca<LibroPoliciaca> biblioteca2 = new Biblioteca<>();
-    Biblioteca biblioteca3 = new Biblioteca<>();
+    Biblioteca<Libro> biblioteca3 = new Biblioteca<>();
     System.out.println("◙ Creacion de Biblioteca ◙");
     System.out.println("▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪▪");
     int opcion;
@@ -151,21 +151,13 @@ public class Entrada {
                             System.out.println("3. Absurdo.");
                             System.out.println("4. Situacion.");
                             int opcionHumor = scanner.nextInt();
-                            TipoHumor tipoHumorSeleccionado = null;
-                            switch (opcionHumor){
-                                case 1:
-                                    tipoHumorSeleccionado = TipoHumor.nego;
-                                    break;
-                                case 2:
-                                    tipoHumorSeleccionado = TipoHumor.sacastico;
-                                    break;
-                                case 3:
-                                    tipoHumorSeleccionado = TipoHumor.absurdo;
-                                    break;
-                                case 4:
-                                    tipoHumorSeleccionado = TipoHumor.situacion;
-                                    break;
-                            }
+                            TipoHumor tipoHumorSeleccionado = switch (opcionHumor) {
+                                case 1 -> TipoHumor.nego;
+                                case 2 -> TipoHumor.sacastico;
+                                case 3 -> TipoHumor.absurdo;
+                                case 4 -> TipoHumor.situacion;
+                                default -> null;
+                            };
 
                             biblioteca1.agregarLibrosCatalogo(new LibroComedia(autor, numPaginas, isbn, tipoHumorSeleccionado));
 
@@ -183,15 +175,11 @@ public class Entrada {
                             System.out.println("1. MISTERIO");
                             System.out.println("2. INTRIGA");
                             int opcionTrama = scanner.nextInt();
-                            Trama tramaSeleccionada = null;
-                            switch (opcionTrama) {
-                                case 1:
-                                    tramaSeleccionada = Trama.misterio;
-                                    break;
-                                case 2:
-                                    tramaSeleccionada = Trama.intriga;
-                                    break;
-                            }
+                            Trama tramaSeleccionada = switch (opcionTrama) {
+                                case 1 -> Trama.misterio;
+                                case 2 -> Trama.intriga;
+                                default -> null;
+                            };
                             scanner.nextLine();
                             System.out.println("Introduce el personaje principal:");
                             String personaje = scanner.nextLine();
@@ -237,22 +225,14 @@ public class Entrada {
                                     System.out.println("3. Absurdo.");
                                     System.out.println("4. Situacion.");
                                     int opcionHumor1 = scanner.nextInt();
-                                    TipoHumor tipoHumorSeleccionado1 = null;
+                                    TipoHumor tipoHumorSeleccionado1 = switch (opcionHumor1) {
+                                        case 1 -> TipoHumor.nego;
+                                        case 2 -> TipoHumor.sacastico;
+                                        case 3 -> TipoHumor.absurdo;
+                                        case 4 -> TipoHumor.situacion;
+                                        default -> null;
+                                    };
 
-                                    switch (opcionHumor1){
-                                        case 1:
-                                            tipoHumorSeleccionado1 = TipoHumor.nego;
-                                            break;
-                                        case 2:
-                                            tipoHumorSeleccionado1 = TipoHumor.sacastico;
-                                            break;
-                                        case 3:
-                                            tipoHumorSeleccionado1 = TipoHumor.absurdo;
-                                            break;
-                                        case 4:
-                                            tipoHumorSeleccionado1 = TipoHumor.situacion;
-                                            break;
-                                    }
                                     biblioteca3.agregarLibrosCatalogo(new LibroComedia(autor, numPaginas, isbn, tipoHumorSeleccionado1));
                                     break;
                                 case 3:
@@ -268,15 +248,11 @@ public class Entrada {
                                     System.out.println("1. MISTERIO");
                                     System.out.println("2. INTRIGA");
                                     int opcionTrama1 = scanner.nextInt();
-                                    Trama tramaSeleccionada1 = null;
-                                    switch (opcionTrama1) {
-                                        case 1:
-                                            tramaSeleccionada1 = Trama.misterio;
-                                            break;
-                                        case 2:
-                                            tramaSeleccionada1 = Trama.intriga;
-                                            break;
-                                    }
+                                    Trama tramaSeleccionada1 = switch (opcionTrama1) {
+                                        case 1 -> Trama.misterio;
+                                        case 2 -> Trama.intriga;
+                                        default -> null;
+                                    };
                                     scanner.nextLine();
                                     System.out.println("Introduce el personaje principal:");
                                     String personaje1 = scanner.nextLine();
@@ -297,18 +273,22 @@ public class Entrada {
                 opcion = scanner.nextInt();
                 switch (opcion) {
                     case 1:
+                        biblioteca.mostrarDatosBiblioteca();
                         biblioteca.consultarNumeroLibros();
                         biblioteca.listarLibrosCatalogo();
                         break;
                     case 2:
+                        biblioteca1.mostrarDatosBiblioteca();
                         biblioteca1.consultarNumeroLibros();
                         biblioteca1.listarLibrosCatalogo();
                         break;
                     case 3:
+                        biblioteca2.mostrarDatosBiblioteca();
                         biblioteca2.consultarNumeroLibros();
                         biblioteca2.listarLibrosCatalogo();
                         break;
                     case 4:
+                        biblioteca3.mostrarDatosBiblioteca();
                         biblioteca3.consultarNumeroLibros();
                         biblioteca3.listarLibrosCatalogo();
                         break;
@@ -412,7 +392,7 @@ public class Entrada {
                 System.out.println(" ◾Programa finalizado◾ ");
                 break;
         }
-        System.out.println("Presiones Si para continuar ↪\uFE0F");
+        System.out.println("Presiones Si para continuar ↪️");
         scanner.next();
 
     } while (opcion != 8);
